@@ -2,6 +2,7 @@ use core::{
     cmp::Ordering,
     ops::{Add, AddAssign, Mul, MulAssign},
 };
+use codec::{Decode, Encode};
 
 macro_rules! debug_assert_bits {
     ($x: expr, $n: expr) => {
@@ -9,7 +10,7 @@ macro_rules! debug_assert_bits {
     };
 }
 
-#[derive(Debug, Clone, Copy, scale_info::TypeInfo)]
+#[derive(Debug, Clone, Copy, Decode, Encode, scale_info::TypeInfo)]
 /// Field element for secp256k1.
 pub struct Field {
     /// Store representation of X.

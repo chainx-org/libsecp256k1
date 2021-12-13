@@ -1,3 +1,4 @@
+use codec::{Decode, Encode};
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg};
 use crunchy::unroll;
 use subtle::Choice;
@@ -21,7 +22,7 @@ const SECP256K1_N_H_5: u32 = 0xFFFFFFFF;
 const SECP256K1_N_H_6: u32 = 0xFFFFFFFF;
 const SECP256K1_N_H_7: u32 = 0x7FFFFFFF;
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq, scale_info::TypeInfo)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Decode, Encode, scale_info::TypeInfo)]
 /// A 256-bit scalar value.
 pub struct Scalar(pub [u32; 8]);
 

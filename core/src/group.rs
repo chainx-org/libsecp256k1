@@ -1,6 +1,7 @@
 use crate::field::{Field, FieldStorage};
+use codec::{Decode, Encode};
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq, scale_info::TypeInfo)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Decode, Encode, scale_info::TypeInfo)]
 /// A group element of the secp256k1 curve, in affine coordinates.
 pub struct Affine {
     pub x: Field,
@@ -8,7 +9,7 @@ pub struct Affine {
     pub infinity: bool,
 }
 
-#[derive(Debug, Clone, Copy, scale_info::TypeInfo)]
+#[derive(Debug, Clone, Copy, Decode, Encode, scale_info::TypeInfo)]
 /// A group element of the secp256k1 curve, in jacobian coordinates.
 pub struct Jacobian {
     pub x: Field,
