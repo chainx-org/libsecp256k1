@@ -641,7 +641,7 @@ impl Signature {
         let r = integer_slice(&r_full);
         let s = integer_slice(&s_full);
 
-        let mut ret = SignatureArray::new(6 + r.len() + s.len());
+        let mut ret = SignatureArray::new(6 + r.len() as u64 + s.len() as u64);
         {
             let l = ret.as_mut();
             l[0] = 0x30;

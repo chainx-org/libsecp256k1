@@ -48,17 +48,21 @@ impl Scalar {
 
     /// Access bits from a scalar. All requested bits must belong to
     /// the same 32-bit limb.
-    pub fn bits(&self, offset: usize, count: usize) -> u32 {
+    pub fn bits(&self, offset: u64, count: u64) -> u32 {
+        let offset = offset as usize;
+        let count = count as usize;
         debug_assert!((offset + count - 1) >> 5 == offset >> 5);
         (self.0[offset >> 5] >> (offset & 0x1F)) & ((1 << count) - 1)
     }
 
     /// Access bits from a scalar. Not constant time.
-    pub fn bits_var(&self, offset: usize, count: usize) -> u32 {
+    pub fn bits_var(&self, offset: u64, count: u64) -> u32 {
+        let offset = offset as usize;
+        let count = count as usize;
         debug_assert!(count < 32);
         debug_assert!(offset + count <= 256);
         if (offset + count - 1) >> 5 == offset >> 5 {
-            self.bits(offset, count)
+            self.bits(offset as u64, count as u64)
         } else {
             debug_assert!((offset >> 5) + 1 < 8);
             ((self.0[offset >> 5] >> (offset & 0x1f))
@@ -125,10 +129,10 @@ impl Scalar {
 
     /// Conditionally add a power of two to a scalar. The result is
     /// not allowed to overflow.
-    pub fn cadd_bit(&mut self, mut bit: usize, flag: bool) {
+    pub fn cadd_bit(&mut self, mut bit: u64, flag: bool) {
         let mut t: u64;
         debug_assert!(bit < 256);
-        bit += if flag { 0 } else { usize::max_value() } & 0x100;
+        bit += if flag { 0 } else { u64::max_value() } & 0x100;
         t = (self.0[0] as u64) + ((if (bit >> 5) == 0 { 1 } else { 0 }) << (bit & 0x1F));
         self.0[0] = (t & 0xFFFFFFFF) as u32;
         t >>= 32;
@@ -738,7 +742,8 @@ impl Scalar {
 
     /// Shift a scalar right by some amount strictly between 0 and 16,
     /// returning the low bits that were shifted off.
-    pub fn shr_int(&mut self, n: usize) -> u32 {
+    pub fn shr_int(&mut self, n: u64) -> u32 {
+        let n = n as usize;
         let ret: u32;
         debug_assert!(n > 0);
         debug_assert!(n < 16);

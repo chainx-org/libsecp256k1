@@ -8,7 +8,8 @@ use crate::{error::Error, scalar::Scalar};
 pub struct SignatureArray([u8; 6 + 33 + 33], usize);
 
 impl SignatureArray {
-    pub fn new(size: usize) -> Self {
+    pub fn new(size: u64) -> Self {
+        let size = size as usize;
         SignatureArray([0u8; 6 + 33 + 33], size)
     }
 
@@ -54,7 +55,8 @@ impl<'a> Decoder<'a> {
         }
     }
 
-    pub fn peek(&self, forward: usize) -> Result<u8, Error> {
+    pub fn peek(&self, forward: u64) -> Result<u8, Error> {
+        let forward = forward as usize;
         if self.1 + forward >= self.0.len() {
             Err(Error::InvalidSignature)
         } else {
@@ -63,7 +65,8 @@ impl<'a> Decoder<'a> {
         }
     }
 
-    pub fn peek_slice(&self, len: usize) -> Result<&[u8], Error> {
+    pub fn peek_slice(&self, len: u64) -> Result<&[u8], Error> {
+        let len = len as usize;
         if (len == 0 && self.1 >= self.0.len()) || self.1 + len > self.0.len() {
             Err(Error::InvalidSignature)
         } else {
@@ -72,7 +75,8 @@ impl<'a> Decoder<'a> {
         }
     }
 
-    pub fn skip(&mut self, len: usize) -> Result<(), Error> {
+    pub fn skip(&mut self, len: u64) -> Result<(), Error> {
+        let len = len as usize;
         if (len == 0 && self.1 >= self.0.len()) || self.1 + len > self.0.len() {
             Err(Error::InvalidSignature)
         } else {
@@ -174,8 +178,8 @@ impl<'a> Decoder<'a> {
 
         if !overflow {
             let mut b32 = [0u8; 32];
-            b32[32 - rlen..].copy_from_slice(self.peek_slice(rlen)?);
-            self.skip(rlen)?;
+            b32[32 - rlen..].copy_from_slice(self.peek_slice(rlen as u64)?);
+            self.skip(rlen as u64)?;
 
             overflow |= bool::from(int.set_b32(&b32));
         }
@@ -194,7 +198,7 @@ impl<'a> Decoder<'a> {
             if len as usize > self.remaining_len() {
                 return Err(Error::InvalidSignature);
             }
-            self.skip(len as usize)?;
+            self.skip(len as u64)?;
         }
 
         Ok(len as usize)
@@ -253,8 +257,8 @@ impl<'a> Decoder<'a> {
 
         if !overflow {
             let mut b32 = [0u8; 32];
-            b32[32 - len..].copy_from_slice(&self.peek_slice(len)?);
-            self.skip(len)?;
+            b32[32 - len..].copy_from_slice(&self.peek_slice(len as u64)?);
+            self.skip(len as u64)?;
 
             overflow |= bool::from(int.set_b32(&b32));
         }
