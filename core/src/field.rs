@@ -1,8 +1,8 @@
+use codec::{Decode, Encode};
 use core::{
     cmp::Ordering,
     ops::{Add, AddAssign, Mul, MulAssign},
 };
-use codec::{Decode, Encode};
 
 macro_rules! debug_assert_bits {
     ($x: expr, $n: expr) => {
@@ -1769,7 +1769,7 @@ impl PartialOrd for Field {
     }
 }
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Decode, Encode, scale_info::TypeInfo)]
 /// Compact field element storage.
 pub struct FieldStorage(pub [u32; 8]);
 

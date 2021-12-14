@@ -9,6 +9,7 @@ use alloc::{
     vec,
     vec::Vec,
 };
+use codec::{Decode, Encode};
 use subtle::Choice;
 
 pub const WINDOW_A: usize = 5;
@@ -40,6 +41,7 @@ fn odd_multiples_table_storage_var(pre: &mut [AffineStorage], a: &Jacobian) {
 }
 
 /// Context for accelerating the computation of a*P + b*G.
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Decode, Encode, scale_info::TypeInfo)]
 pub struct ECMultContext {
     pre_g: [AffineStorage; ECMULT_TABLE_SIZE_G],
 }

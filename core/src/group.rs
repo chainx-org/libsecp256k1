@@ -18,7 +18,7 @@ pub struct Jacobian {
     pub infinity: bool,
 }
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Decode, Encode, scale_info::TypeInfo)]
 /// Affine coordinate group element compact storage.
 pub struct AffineStorage {
     pub x: FieldStorage,
