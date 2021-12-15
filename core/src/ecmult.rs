@@ -46,43 +46,6 @@ pub struct ECMultContext {
     pre_g: [AffineStorage; ECMULT_TABLE_SIZE_G as usize],
 }
 
-pub fn ecmult_wasm(e: ECMultContext, r: &mut Jacobian, a: &Jacobian, na: &Scalar, ng: &Scalar) {
-    let mut tmpa = Affine::default();
-    let mut pre_a: [Affine; ECMULT_TABLE_SIZE_A as usize] = Default::default();
-    let mut z = Field::default();
-    let mut wnaf_na = [0i32; 256];
-    let mut wnaf_ng = [0i32; 256];
-    let bits_na = ecmult_wnaf(&mut wnaf_na, na, WINDOW_A as u64);
-    let mut bits = bits_na;
-    odd_multiples_table_globalz_windowa(&mut pre_a, &mut z, a);
-
-    let bits_ng = ecmult_wnaf(&mut wnaf_ng, &ng, WINDOW_G as u64);
-    if bits_ng > bits {
-        bits = bits_ng;
-    }
-
-    r.set_infinity();
-    for i in (0..bits).rev() {
-        let mut n;
-        *r = r.double_var(None);
-
-        n = wnaf_na[i as usize];
-        if i < bits_na && n != 0 {
-            table_get_ge(&mut tmpa, &pre_a, n, WINDOW_A as u64);
-            *r = r.add_ge_var(&tmpa, None);
-        }
-        n = wnaf_ng[i as usize];
-        if i < bits_ng && n != 0 {
-            table_get_ge_storage(&mut tmpa, &e.pre_g, n, WINDOW_G as u64);
-            *r = r.add_zinv_var(&tmpa, &z);
-        }
-    }
-
-    if !r.is_infinity() {
-        r.z *= &z;
-    }
-}
-
 impl ECMultContext {
     /// Create a new `ECMultContext` from raw values.
     ///
