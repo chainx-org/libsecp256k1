@@ -6,7 +6,7 @@ version = "0.7.0"
 authors = ["Wei Tang <hi@that.world>"]
 repository = "https://github.com/paritytech/libsecp256k1"
 keywords = ["crypto", "ECDSA", "secp256k1", "bitcoin", "no_std"]
-edition = "2018"
+edition = "2021"
 resolver = "2"
 
 [dependencies]
