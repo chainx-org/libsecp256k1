@@ -18,10 +18,10 @@ jobs:
       RUST_BACKTRACE:  full
     steps:
       - name:          Cancel Previous Runs
-        uses:          styfle/cancel-workflow-action@0.9.1
+        uses:          styfle/cancel-workflow-action@b173b6ec0100793626c2d9e6b90435061f4fc3e5 # 0.11.0
 
       - name:          Checkout sources & submodules
-        uses:          actions/checkout@v2.3.4
+        uses:          actions/checkout@v3.1.0
         with:
           fetch-depth: 5
           submodules:  recursive

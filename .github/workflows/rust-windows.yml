@@ -33,7 +33,7 @@ jobs:
     steps:
 
       - name:          Cancel Previous Runs
-        uses:          styfle/cancel-workflow-action@0.9.1
+        uses:          styfle/cancel-workflow-action@b173b6ec0100793626c2d9e6b90435061f4fc3e5 # 0.11.0
 
       - name:          Install sudo for windows #https://github.com/actions/virtual-environments/issues/572
         if: matrix.platform == 'windows-latest'
@@ -48,7 +48,7 @@ jobs:
           refreshenv
 
       - name:          Checkout sources & submodules
-        uses:          actions/checkout@v2.3.4
+        uses:          actions/checkout@v3.1.0
         with:
           fetch-depth: 5
           submodules:  recursive
@@ -70,19 +70,19 @@ jobs:
         shell:         bash
 
       - name:          Cache cargo registry
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        $HOME/.cargo/registry
           key:         cargo-registry-${{ env['cache_hash'] }}
 
       - name:          Cache cargo index
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        $HOME/.cargo/git
           key:         cargo-git-${{ env['cache_hash'] }}
 
       - name:          Cache cargo build
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        target
           key:         cargo-target-${{ env['cache_hash'] }}
@@ -113,7 +113,7 @@ jobs:
     steps:
 
       - name:          Cancel Previous Runs
-        uses:          styfle/cancel-workflow-action@0.9.1
+        uses:          styfle/cancel-workflow-action@b173b6ec0100793626c2d9e6b90435061f4fc3e5 # 0.11.0
 
       - name:          Set default compiler
         if:            matrix.compiler == 'clang' && matrix.platform != 'windows-latest'
@@ -134,7 +134,7 @@ jobs:
           refreshenv
 
       - name:          Checkout sources & submodules
-        uses:          actions/checkout@v2.3.4
+        uses:          actions/checkout@v3.1.0
         with:
           fetch-depth: 5
           submodules:  recursive
@@ -156,19 +156,19 @@ jobs:
         shell:         bash
 
       - name:          Cache cargo registry
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        $HOME/.cargo/registry
           key:         cargo-registry-${{ env['cache_hash'] }}
 
       - name:          Cache cargo index
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        $HOME/.cargo/git
           key:         cargo-git-${{ env['cache_hash'] }}
 
       - name:          Cache cargo build
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        target
           key:         cargo-target-${{ env['cache_hash'] }}
@@ -210,7 +210,7 @@ jobs:
     steps:
 
       - name:          Cancel Previous Runs
-        uses:          styfle/cancel-workflow-action@0.9.1
+        uses:          styfle/cancel-workflow-action@b173b6ec0100793626c2d9e6b90435061f4fc3e5 # 0.11.0
 
       - name:          Set default compiler
         if:            matrix.compiler == 'clang' && matrix.platform != 'windows-latest'
@@ -231,7 +231,7 @@ jobs:
           refreshenv
 
       - name:          Checkout sources & submodules
-        uses:          actions/checkout@v2.3.4
+        uses:          actions/checkout@v3.1.0
         with:
           fetch-depth: 5
           submodules:  recursive
@@ -253,19 +253,19 @@ jobs:
         shell:         bash
 
       - name:          Cache cargo registry
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        $HOME/.cargo/registry
           key:         cargo-registry-${{ env['cache_hash'] }}
 
       - name:          Cache cargo index
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        $HOME/.cargo/git
           key:         cargo-git-${{ env['cache_hash'] }}
 
       - name:          Cache cargo build
-        uses:          actions/cache@v2.1.6
+        uses:          actions/cache@v3.0.11
         with:
           path:        target
           key:         cargo-target-${{ env['cache_hash'] }}
@@ -310,7 +310,7 @@ jobs:
         shell:         bash
 
       - name:          Upload artifacts
-        uses:          actions/upload-artifact@v2.2.4
+        uses:          actions/upload-artifact@v3.1.0
         with:
           name:        ${{ matrix.platform }}.${{ matrix.toolchain }}.${{ matrix.compiler }}.zip
           path:        artifacts/
